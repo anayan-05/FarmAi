@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Live Crop Health Prediction</title>
+</head>
+<body>
+    <h1>Live Crop Health Prediction</h1>
+    <button onclick="getPrediction()">Get Live Prediction</button>
+    <div id="result"></div>
+
+    <script>
+        function getPrediction() {
+            fetch('/predict')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('result').innerHTML = 'Error: ' + data.error;
+                    } else {
+                        document.getElementById('result').innerHTML = `
+                            <p>Temperature: ${data.temperature} °C</p>
+                            <p>Humidity: ${data.humidity} %</p>
+                            <p>Soil Moisture: ${data.soil_moisture}</p>
+                            <p><strong>Predicted Crop Health: ${data.prediction}</strong></p>
+                        `;
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
